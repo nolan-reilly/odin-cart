@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({cartTotal}) {
   const location = useLocation();
 
   return (
@@ -11,7 +11,7 @@ export default function Navbar() {
 
         {location.pathname === "/shop" && (
           <div>
-            <p>Quantity: 0</p>
+            <p>Quantity: {cartTotal}</p>
           </div>
         )  }
       </div>

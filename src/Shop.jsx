@@ -3,16 +3,16 @@ import Navbar from "./Navbar";
 import Product from "./Product";
 
 export default function Shop() {
-  const [totalQuantity, setTotalQuantity] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
 
   // Pass this function into product have quantity variable
-  function updateTotalQuantity() {
-    console.log("Clicked");
+  function updateCartTotal(quantity) {
+    setCartTotal(cartTotal + quantity);
   }
 
   return (
     <div>
-      <Navbar />
+      <Navbar cartTotal={cartTotal} />
 
       <div className="container">
         {/* I don't think that we need to pass in any information of the current quantity we'll
@@ -20,10 +20,10 @@ export default function Shop() {
             by the parent instead */}
 
         {/* Maybe just have an Id's array for products */}
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        <Product updateCartTotal={updateCartTotal} />
+        <Product updateCartTotal={updateCartTotal} />
+        <Product updateCartTotal={updateCartTotal} />
+        <Product updateCartTotal={updateCartTotal} />
       </div>
     </div>
   )
