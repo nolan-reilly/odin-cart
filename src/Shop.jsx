@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Product from "./Product";
 
 export default function Shop() {
   const [cartTotal, setCartTotal] = useState(0);
 
+  // We have to make this a state
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
+  }, []);
+
   // Pass this function into product have quantity variable
   function updateCartTotal(quantity) {
     setCartTotal(cartTotal + quantity);
+  }
+
+  function logger() {
+    console.log(products[0].id);
   }
 
   return (
@@ -15,16 +28,24 @@ export default function Shop() {
       <Navbar cartTotal={cartTotal} />
 
       <div className="container">
-        {/* I don't think that we need to pass in any information of the current quantity we'll
-            just have it contained with in a component and just pass in a function here to be used
-            by the parent instead */}
+        {products ? (
+          <div className="flex flex-col gap-32">
+            {products.map((product) => (
+              <Product
+                key={product.id}
+                updateCartTotal={updateCartTotal}
+                title={product.title}
+                image={product.image}
+                price={product.price}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>Loading Products...</p>
+        )}
 
-        {/* Maybe just have an Id's array for products */}
-        <Product updateCartTotal={updateCartTotal} />
-        <Product updateCartTotal={updateCartTotal} />
-        <Product updateCartTotal={updateCartTotal} />
-        <Product updateCartTotal={updateCartTotal} />
+        <button onClick={logger}>Logger</button>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Product({updateCartTotal}) {
+export default function Product({ updateCartTotal, title, image, price }) {
   const [quantity, setQuantity] = useState(0);
 
   function incrementQuantity() {
@@ -15,17 +15,34 @@ export default function Product({updateCartTotal}) {
     setQuantity(quantity - 1);
   }
 
+  function updateAndChange(quantity) {
+    setQuantity(0);
+    updateCartTotal(quantity);
+  }
+
   return (
-    <div>
-      <p>Product</p>
+    <div className="card">
+      <div className="flex flex-row justify-between product-container gap-32">
+        <div>
+          <img className="product-img" src={image} alt="Product" />
+        </div>
 
-      <p>Quantity: {quantity}</p>
+        <div className="flex flex-col gap-24">
+          <div className="flex flex-row">
+            <p>{title}</p>
+            <p>{price}</p>
+          </div>
 
-      <button onClick={incrementQuantity}>Increment</button>
-      <button onClick={decrementQuantity}>Decrement</button>
+          <div>
+            <p>Quantity: {quantity}</p>
 
+            <button onClick={incrementQuantity}>Increment</button>
+            <button onClick={decrementQuantity}>Decrement</button>
+          </div>
 
-      <button onClick={() => updateCartTotal(quantity)}>Add to Cart</button>
+          <button onClick={() => updateAndChange(quantity)}>Add to Cart</button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
